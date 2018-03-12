@@ -1,0 +1,43 @@
+.mainCenter{
+    margin-top: 50px;
+    margin-left: 450px;
+    padding: 40px 40px;
+    border: 1px solid gray;
+    background-color: white;
+    cursor : 'pointer';
+    width: 400px;
+}
+
+.signInBtn {
+    font-weight: 900;
+    background-color: #00ace6;
+    height: 45px;
+    cursor : 'pointer'
+}
+
+.inputField{
+    height: 45px;
+}
+
+.labelLeft{
+    float: left;
+    
+}
+.labelRem{
+    font-weight: 200;
+}
+
+.anc{
+    cursor : 'pointer';
+}
+.labelRight{
+    float: right;
+    font-weight: 200;
+}
+
+.myErrorMsg{
+    background-color: lightcoral;
+    height: 30px;
+    padding: 5px;
+    font-weight: 600;
+}

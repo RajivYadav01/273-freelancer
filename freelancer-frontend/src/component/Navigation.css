@@ -1,0 +1,38 @@
+.styleUl{
+    float: right;
+}
+
+.styleNav{
+    height : 70px;
+    background-color: white;
+    color: black;
+    font-size: 18px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 500;
+    width: 100%;
+}
+
+.warnBtn {
+    margin-top: 3px;
+    padding: 5px;
+    padding-top: 10px;
+    height: 40px;
+    font-size: 18px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 500; 
+    width:150px;
+    display: inline-block;
+}
+
+.firstDiv{
+    margin-left: 70px;
+    margin-right: 80px;
+    color: #000000;
+    padding-top: 12px;
+}
+
+.carouselDiv{
+    margin-top: 10px;
+    width: inherit;
+    height: inherit;
+}

@@ -1,0 +1,47 @@
+.mainDiv{
+    margin: 10px;
+    padding-top: 20px;
+    border : 1px grey;
+    box-sizing: border-box;
+    text-align: left;
+    width : 90%;
+    background-color: white ;
+    padding-bottom: 50px;
+}
+
+.styleTable{
+    border : 1px black;
+    width : 80%;
+}
+
+.styleButton{
+    height : 50px;
+    width: 200px;
+    font-weight: 600;
+}
+
+.styleBid{
+    height : 40px;
+    text-align : left;
+    background-color: #99ff99;
+    padding : 2px;
+    width : 80%;
+    
+}
+
+.styletd{
+    font-size : 20px;
+    border-right: 1px dotted grey;
+}
+
+.blueP{
+    color : #008fb3;
+    font-size : 20px;
+    font-weight: 900;
+}
+
+.blueText{
+    color : #008fb3;
+    font-weight: 600;
+}
+

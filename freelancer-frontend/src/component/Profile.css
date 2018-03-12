@@ -1,0 +1,20 @@
+.imageStyle{
+    height: 100%;
+    width:100%;
+}
+
+.mainDiv{
+    padding-top: 10%;
+    padding-left: 10%;
+}
+
+.divStyle{
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.div3Style{
+    padding-top: 20px;
+    padding-bottom: 20px;
+    width: 200px;
+}
