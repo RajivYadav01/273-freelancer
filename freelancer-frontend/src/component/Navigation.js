@@ -15,12 +15,12 @@ class Navigation extends Component{
         showError : false
     }
     logoutHandler(){
-        cookie.remove('myCookie');
+        cookie.remove('cookie');
     }
     render(){
         let navChanges = null;
 
-        if(cookie.load('myCookie')){
+        if(cookie.load('cookie')){
             navChanges = (
                 <ul className="styleUl nav navbar-nav">
                     <li className="active"><a onClick = {this.logoutHandler} href = "/">Logout</a></li>
@@ -40,11 +40,11 @@ class Navigation extends Component{
             );
         }
         let carousel = null;
-        if(cookie.load('myCookie') == null){
+        if(cookie.load('cookie') == null){
             carousel = (
                 <div id="myCarousel" className=" carouselDiv carousel slide" data-ride="carousel">
                     <ol className="carousel-indicators">
-                        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                        <li data-target="#myCarousel" data-slide-to="0" className="active"></li>
                         <li data-target="#myCarousel" data-slide-to="1"></li>
                         <li data-target="#myCarousel" data-slide-to="2"></li>
                         <li data-target="#myCarousel" data-slide-to="3"></li>
@@ -54,7 +54,7 @@ class Navigation extends Component{
                             <img src={item1} alt="item1" />
                         </div>
     
-                        <div class="item">
+                        <div className="item">
                             <img src={item2} alt="item2"/>
                         </div>
         

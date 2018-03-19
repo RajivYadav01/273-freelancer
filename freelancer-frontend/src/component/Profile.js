@@ -7,129 +7,208 @@ import { connect } from 'react-redux';
 import EditableLabel from 'react-inline-editing';
 import pencilLogo from '../assets/images/pencil.png';
 import Navigation2 from './Navigation2';
+import Imageupload from './ImageUpload';
+import { bindActionCreators } from 'redux';
+import {updateProfile} from '../actions/index';
+import cookie from 'react-cookies';
 
 class Profile extends Component{
     constructor(props){
         super(props);
-        this._handleF = this._handleF.bind(this);
-        this._handleFocusOut = this._handleFocusOut.bind(this);
         this.state = {
             disabled : true,
-            name : null,
-            designation:null,
-            aboutMe : null,
-            skills : null,
-            email : null,
-            phNo : null,
-            form : null
+            loadedProfileDetails:null,
+            username : '',
+            designation:'',
+            aboutme : '',
+            skills :'',
+            email : '',
+            phone : '',
+            file : null,
+            image : '',
+            editing : false,
+            uid:'',
+            save: false
+            
         }
-    }
-    
-    _handleF(text) {
-        this.setState({
-            form : (
-                <div>
-                    <button>Save</button>
-                </div>
-            )
-        });
-    }
 
-    _handleFocusOut(text) {
-        console.log("Text Value : ",text);
-        //text.preventDefault();
-        this.setState({
-            name : text
-        });
+        this.handleChange=this.handleChange.bind(this);
+        
     }
-
-
     componentWillMount(){
-        const id = this.props.id;
-        axios.post('http://localhost:1500/profile/',JSON.stringify(id))
-                .then((response) => {
-                this.setState({
-                    name : response.data.name,
-                    designation : response.data.designation,
-                    aboutMe : response.data.aboutMe,
-                    skills : response.data.skills,
-                    email : response.data.email,
-                    phNo : response.data.phoneNumber
-                });
-                console.log("Name after post : ", response);
-            });
-            
-    }
-    handleChange = (events) => {
-        this.setState({
-            name : events.target.value
-        });
-    }
-    handleEditClick = (events) => {
-        console.log("Inside handle click");
-        this.setState({
-            disabled : !this.state.disabled
-        });
-    }
-    render(){
-        const pencilStyle = {
-            height:'20px',
-            width : '20px'
-        }
-        let pencil = null;
-        if(!this.state.disabled){
-            pencil = (<img style = {pencilStyle} onClick = {this._handleF} src = {pencilLogo} className="img-rounded imageStyle" alt="edit"></img>);
-        }
 
-        const styleSkills = {
-            width : '200px'
-        }
-        console.log("ID inside profile : " + this.props.id);
-        return(
+        if(cookie.load('cookie')){
+            axios.post('http://localhost:8900/profile/',{'userID':cookie.load('cookie')})
+            .then(response=>{
+                console.log("response",response);
+                this.setState({
+                    username:response.data.name,
+                    designation:response.data.designation,
+                    phone:response.data.phoneNumber,
+                    email:response.data.email,
+                    skills:response.data.skills,
+                    aboutme:response.data.aboutMe
+                })
             
-            <div className="container-fluid ">
-                <Navigation/>
-                <Navigation2/>
-                <div>
-                <span>
-                <EditableLabel text={this.state.name}
-                    labelClassName='myLabelClass'
-                    inputClassName='myInputClass'
-                    inputWidth='200px'
-                    inputHeight='25px'
-                    inputMaxLength='50'
-                    labelFontWeight='bold'
-                    inputFontWeight='bold'
-                    //onFocus={this._handleF}
-                    onFocusOut={this._handleFocusOut}
-                    disabled = 'true'
-                    //onClick={this.onFocus}
-                />
-                {pencil}
-                </span>
-                {this.state.form}
-                </div>
-                <br/><br/>
-                <div className="row content ">
-                    <div className="col-sm-3 divStyle ">
-                        <img src = {ProfilePic} className="img-rounded imageStyle" alt="Insert Photo here"></img>
-                        <h4>Email : {this.state.email}</h4>
-                        <h4>Phone : {this.state.phNo}</h4>
-                    </div> 
-                    <div className="col-sm-6 divStyle">
-                        <h3>{this.state.name}</h3>
-                        <h4>{this.state.designation}</h4>
-                        <h4>{this.state.aboutMe}</h4>
+            });
+        }
+    }
+
+
+    edit() {
+        this.setState({
+            editing: true,
+            disabled: false
+        });
+    }
+
+    cancel() {  
+        this.setState({
+            editing: false,
+            disabled: true,
+            save: false
+        });
+    }
+
+
+    handleChange = (events) =>{
+        if(events.target.name === 'aboutme'){
+            this.setState({
+                aboutme : events.target.value
+            });
+        }
+        if(events.target.name === 'skills'){
+            this.setState({
+                skills : events.target.value
+            });
+        }
+        if(events.target.name === 'email'){
+            this.setState({
+                email : events.target.value
+            });
+        }
+        if(events.target.name === 'phone'){
+            this.setState({
+                phone : events.target.value
+            });
+        }
+        
+    }
+
+    saveUpdatedUser(e) {
+        e.preventDefault();
+        this.props.updateProfile(
+            {
+                username: this.state.username,
+                email: this.state.email,
+                phone: this.state.phone,
+                aboutMe: this.state.aboutme,
+                skills:this.state.skills,
+                designation:this.state.designation,
+                userID:cookie.load('cookie')
+            });
+        this.setState({
+            editing: false,
+            disabled: true,
+            save: true
+        })    
+    }
+
+    render(){
+
+        console.log("in profile");
+        let buttons = null;
+        let saveCancelButton = null;
+        if(this.state.editing === false) {
+            buttons = (
+                <div className="form-group">
+                                <div className="btn-group btn-group-justified">
+                                    <div className="btn-group">
+                                        <button type="button" onClick={this.edit.bind(this)} className="btn btn-primary form-control"><label> Edit your profile </label></button>
+                                    </div>
+                                </div>
+                                
+                            </div>
+            );
+            saveCancelButton = null;
+        } else {
+            saveCancelButton = (
+                <div className="form-group">
+                                <div className="btn-group btn-group-justified">
+                                    <div className="btn-group">
+                                        <button type="button" onClick={this.saveUpdatedUser.bind(this)} className="btn btn-primary form-control"><label>Save</label></button>
+                                    </div>
+                                    <div className="btn-group">
+                                        <button type="button" onClick={this.cancel.bind(this)} className="btn btn-primary form-control"><label>Cancel</label></button>
+                                    </div>
+                                </div>
+                                
+                            </div> 
+            )
+        }
+        let profileDetails=null;
+        if(this.state.username){
+       
+        profileDetails=(
+            <div className = 'Userprofile'>
+            <Navigation />
+            <Navigation2 />
+            <div className='container-fluid'>
+                <div className='row'>
+                    <Imageupload eVal={this.state.editing} sVal={this.state.save} />
+                    <div id='profileDescription'>
+                    <div>
+                    <form >
+                        <div className="form-group">
+                            <div id='name'><h1>{this.state.username}</h1></div>
+                        </div>
+                        <div className="form-group">
+                            <div id='name'><h4>{this.state.designation}</h4></div>
+                        </div>
+                        <div className="form-group">
+                            <label>About Me:  <span className="glyphicon glyphicon-edit"></span></label>
+                            <textarea id="txtaboutme" value={this.state.aboutme} disabled={this.state.disabled} onChange={this.handleChange} className="form-control" rows="5" name="aboutme" ></textarea>
+                        </div>
+                        <div className="form-group">
+                            <label>Email:  <span className="glyphicon glyphicon-edit"></span></label>    
+                            <input type="email"  ref="emailid"  value={this.state.email} disabled={this.state.disabled} onChange={this.handleChange} className="form-control" placeholder='Enter your email id'  id="txtEmailId" name="email" />
+                        </div>
+                        <div className="form-group">
+                            <label>Phone:  <span className="glyphicon glyphicon-edit"></span></label>
+                            <input type="text" ref="phone"  value={this.state.phone} disabled={this.state.disabled} onChange={this.handleChange} className="form-control" placeholder='Enter your phone number' id="txtPhone" name="phone" />
+                        </div>
+                        
+                    </form>
                     </div>
-                    <div className="col-sm-2 div3Style">
-                        <button onClick = {this.handleEditClick.bind(this)} className = "btn btn-primary form-control">Edit Profile</button>
-                        {<h4 style = {styleSkills}>Skills : {this.state.skills}</h4>}
+                    <div>
+                    {saveCancelButton}
+                    </div>
+                    
+                    </div>
+                    <div id='profileSkillsAndEditButton'>
+                        {buttons}
+                        <div id = 'profileSkills'>
+                            <div className="form-group">
+                                <label>Skills:  <span className="glyphicon glyphicon-edit"></span></label>
+                                <textarea id="txtskills" value={this.state.skills} className="form-control" rows="5" onChange={this.handleChange} name='skills' disabled={this.state.disabled}></textarea>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+        </div>
+            );
+        }else{
+           <div>Waiting</div>
+        }
+        return(
+            <div>
+                {profileDetails}
+            </div>
         );
     }
-}
+    
+}  
 
 const mapStateToProps = state => {
     return {
@@ -137,4 +216,10 @@ const mapStateToProps = state => {
     };
 };
 
-export default connect(mapStateToProps)(Profile);
+
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({updateProfile},dispatch);
+}
+
+
+export default connect(mapStateToProps,mapDispatchToProps)(Profile);

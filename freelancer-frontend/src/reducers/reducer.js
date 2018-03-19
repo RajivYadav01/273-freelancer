@@ -1,3 +1,5 @@
+import cookie from 'react-cookies';
+
 const initialState = {
     token : null,
     id : null,
@@ -25,7 +27,7 @@ const reducer = (state = initialState, action) => {
         console.log("Action : ",action.payload.data);
         if(action.payload.data !== null){
             return{
-                id : action.payload.data,
+                id : cookie.load('cookie'),
                 error : false
             }
         }
@@ -42,6 +44,12 @@ const reducer = (state = initialState, action) => {
         console.log("SHOW PROJ",action.payload);
         return{
             project : action.payload
+        }
+    }
+
+    if(action.type === 'FETCH_FORM') {
+        return {
+            token:null
         }
     }
 

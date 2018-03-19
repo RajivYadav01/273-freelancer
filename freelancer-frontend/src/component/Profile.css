@@ -1,20 +1,31 @@
-.imageStyle{
-    height: 100%;
-    width:100%;
+#profileSkillsAndEditButton {
+    background: white;
+    margin-top: 5%;
+    
+    margin-left: 2%;
+    margin-bottom: 20%;
+    border: 1px solid;
+    box-shadow: 5px 5px #888888;
+    width: 400px;
+    height: auto;
+    padding: 10px;
 }
 
-.mainDiv{
-    padding-top: 10%;
-    padding-left: 10%;
+#profileDescription {
+    background: white;
+    margin-top: 5%;
+    
+    margin-left: 2%;
+    margin-bottom: 20%;
+    border: 1px solid;
+    box-shadow: 5px 5px #888888;
+    width: 600px;
+    height: auto;
+    padding: 10px;
+    
 }
 
-.divStyle{
-    padding-top: 20px;
-    padding-bottom: 20px;
-}
-
-.div3Style{
-    padding-top: 20px;
-    padding-bottom: 20px;
-    width: 200px;
-}
+.row > div{
+    float:left;
+    margin:10px;
+  }

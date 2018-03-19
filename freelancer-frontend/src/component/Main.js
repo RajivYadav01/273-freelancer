@@ -7,7 +7,9 @@ import UserDash from './UserDash';
 import Profile from './Profile';
 import MyProjects from './MyProjects';
 import ShowProjectDetails from './ShowProjectDetails';
-import PostProject from './PostProject';
+import AddProjects from './AddProject';
+import ProjectsPosted from './ProjectsPosted';
+import Bid from './Bid';
 
 const Main = () => (
     <Switch>
@@ -18,7 +20,9 @@ const Main = () => (
         <Route exact path = '/profile' component = {Profile}/>
         <Route exact path = '/myProjects' component = {MyProjects}/>
         <Route exact path = '/ShowProject' component = {ShowProjectDetails}/>
-        <Route exact path = '/post' component = {PostProject}/>
+        <Route exact path = '/addproject' component = {AddProjects}/>
+        <Route exact path = '/showProjectsPosted' component = {ProjectsPosted}/>
+        <Route exact path = '/bid/:pid' component={Bid}/>
     </Switch>
 )
 

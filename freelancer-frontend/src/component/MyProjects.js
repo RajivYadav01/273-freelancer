@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import Navigation from './Navigation';
 import Navigation2 from './Navigation2';
-import ShowProjects from './ShowProjects';
+import ShowProjectsBid from './ShowProjectsBid';
 
 class MyProjects extends Component{
 
@@ -13,7 +13,7 @@ class MyProjects extends Component{
             <div>
                 <Navigation/>
                 <Navigation2/>
-                <ShowProjects/>
+                <ShowProjectsBid/>
             </div>
         );
     }

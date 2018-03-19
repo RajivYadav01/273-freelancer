@@ -1,10 +1,12 @@
 import React,{Component} from 'react';
 import Navigation from './Navigation';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import axios from 'axios';
 import './SignUp.css';
 import { Route, Link, Switch, Redirect } from 'react-router-dom';
 import {withRouter} from 'react-router';
+import { signupAction } from '../actions/index';
 import Logo from '../assets/images/freelancer-logo.png';
 
 
@@ -15,7 +17,6 @@ class SignUp extends Component{
         email : '',
         userType : null,
     }
-    
 
 
     handleChange = (events) => {
@@ -48,9 +49,9 @@ class SignUp extends Component{
             email : this.state.email,
             userType : this.state.userType
         }
-        this.props.submitForm(newData);
+        this.props.signupAction(newData);
         if(this.state.id !== null){
-            <Redirect to="/"/>
+            <Redirect to="/user"/>
         }
     }
 
@@ -70,7 +71,7 @@ class SignUp extends Component{
     render(){
         let authRedirect = null;
         if (this.props.id !== null) {
-            authRedirect = <Redirect to='/'/>
+            authRedirect = <Redirect to='/user'/>
         }
         return(
             
@@ -128,13 +129,30 @@ const mapStateToProps = state => {
 };
 
 function mapDispatchToProps(dispatch) {
-    return {
-        submitForm: (newData) => {
-            axios.post('http://localhost:1500/signUp/', JSON.stringify(newData))
-                .then((response) => {
-                dispatch({type: 'SUCCESS',payload : response})
-            });
-        }
-    }
+    return bindActionCreators({ signupAction }, dispatch);
+    // return {
+    //     submitForm: (newData) => {
+    //         // axios.post('http://localhost:8900/signUp/', JSON.stringify(newData))
+    //         //     .then((response) => {
+    //         //     dispatch({type: 'SUCCESS',payload : response})
+    //         // });
+    //         var headers = new Headers();
+    //         headers.append('Content-Type', 'application/json');
+    //         headers.append('Accept', 'application/json');
+    //         console.log("Data sent : ",newData);
+    //         axios('http://localhost:8900/signUp/', {
+    //             method: 'post',
+    //             mode: 'no-cors',
+    //             redirect: 'follow',
+    //             withCredentials: true,
+    //             headers: headers,
+    //             data: JSON.stringify(newData)
+    //         })
+    //         .then((response) => {
+    //              dispatch({type: 'SUCCESS',payload : response})
+    //              console.log(response);
+    //         })
+    //     }
+    // }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(SignUp);
